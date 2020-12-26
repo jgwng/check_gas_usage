@@ -1,13 +1,10 @@
 import 'package:checkgasusage/constants/app_theme.dart';
 import 'package:checkgasusage/screens/register_info/register_info.dart';
-import 'file:///C:/Users/gwjun/AndroidStudioProjects/check_gas_usage/lib/screens/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AuthPage extends StatelessWidget{
-  final TextStyle textStyle =TextStyle(
-      fontSize:25,color: AppThemes.textColor,fontFamily: "NotoSans",fontWeight: FontWeight.w500
-  );
+
   @override
   Widget build(BuildContext context) {
     List<String> iconList = ["kakao_talk.png","5733.png","123.png","6378.png"];
@@ -26,9 +23,9 @@ class AuthPage extends StatelessWidget{
               width: 100,
               child: Image.asset("assets/logo/gas.png",fit: BoxFit.fill,),
             ),
-            SizedBox(height: 32.1,),
+            SizedBox(height: 32,),
             Text("가스 점검하러\n오신 것을\n환영합니다.",textAlign: TextAlign.center,
-              style: textStyle,),
+              style: AppThemes.textTheme.headline1,),
             SizedBox(height: 50,),
             Container(
               width: 190,
@@ -38,13 +35,13 @@ class AuthPage extends StatelessWidget{
                     bottom: BorderSide(color: Colors.white,width:1),
                   )),//
               child: Text("아래 계정으로 시작하기",
-                  textAlign: TextAlign.center,style: textStyle.copyWith(fontSize: 12)),
+                  textAlign: TextAlign.center,style: AppThemes.textTheme.headline1.copyWith(fontSize: 12)),
             ),
             GestureDetector(
               onTap:(){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RootPage()),
+                  MaterialPageRoute(builder: (context) => RegisterInfo()),
                 );
               },
               child: Container(
@@ -83,7 +80,7 @@ class AuthPage extends StatelessWidget{
             child: Image.asset("assets/image/auth_page/$assetName"),
           ),
           SizedBox(width:11.3,),
-          Text(iconName,style: textStyle.copyWith(fontSize: 20),)
+          Text(iconName,style: AppThemes.textTheme.headline1.copyWith(fontSize: 20),)
         ],
       ),
     );

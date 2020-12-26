@@ -12,7 +12,6 @@ class _MyGasUsageState extends State<MyGasUsage>{
   var list = [];
   int index;
   List<int> realChartItem = [75,77,76,78,79,80,72,74,71,70,65,73];
-  List<String> golfClubKr = ["드라이버","2번우드","3번우드","4번우드","5번우드","3번 아이언","4번 아이언","5번 아이언","6번 아이언"];
 
   @override
   void initState() {

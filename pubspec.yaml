@@ -54,6 +54,7 @@ flutter:
     - assets/image/bnb_items/home.png
     - assets/image/bnb_items/my_usage.png
     - assets/image/bnb_items/setting.png
+    - assets/image/register_info/gas_pipe.png
     - assets/logo/gas.png
 
 
