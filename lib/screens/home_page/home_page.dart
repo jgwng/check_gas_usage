@@ -2,6 +2,8 @@ import 'package:checkgasusage/constants/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:checkgasusage/screens/ml_vision/example_list.dart';
+import 'package:checkgasusage/screens/ml_vision/practice_vision.dart';
 class HomePage extends StatefulWidget{
   @override
   _HomePageState createState() => _HomePageState();
@@ -38,34 +40,42 @@ class _HomePageState extends State<HomePage>{
       ),
       body: Container(
 
-        child:Center(
-          child: Column(
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height:46),
-              InkWell(
-                child: Stack(
-                  overflow: Overflow.visible,
-                  children: [
-                    Container(
-                      child: Image.asset("assets/image/home_page/6213.png"),
-                    ),
-                    Positioned(
-                        right: -16,
-                        bottom: -10,
-                        child: Container(
-                            child: Image.asset("assets/image/home_page/6415.png")
-                        )
-
-                    )
-                  ],
-                ),
+              Container(
+                padding : EdgeInsets.only(left: 30),
+                alignment: Alignment.centerLeft,
+                child: Text("건웅님,\n환영합니다.",
+                    style: AppThemes.textTheme.headline1),
               ),
-              SizedBox(height:17.2),
+              SizedBox(height:80),
+              GestureDetector(
+                  onTap: () =>  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyHomePage()),
+                  ),
+                child:  CircleAvatar(
+                  radius: 120, // 바깥원 반지름
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    radius: 118, // 안쪽원 반지름
+                    child: Center(child: Text("aaaa"),),
+                    backgroundColor: AppThemes.mainColor,
+                  ),
+                ),
+              )
+
+
+
+
+             ,
+
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
 
