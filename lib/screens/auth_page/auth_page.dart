@@ -2,15 +2,40 @@ import 'package:checkgasusage/constants/app_theme.dart';
 import 'package:checkgasusage/screens/register_info/register_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 
-class AuthPage extends StatelessWidget{
+class AuthPage extends StatefulWidget{
+  @override
+  _AuthPageState createState() => _AuthPageState();
+}
+
+class _AuthPageState extends State<AuthPage>{
+  bool _isKaKaoTalkInstalled = false;
+
+
+  @override
+  void initState(){
+    super.initState();
+    _initKaKaoTalkInstalled();
+  }
+
+  _initKaKaoTalkInstalled() async {
+    final installed = await isKakaoTalkInstalled();
+    setState(() {
+      _isKaKaoTalkInstalled = installed;
+    });
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     List<String> iconList = ["kakao_talk.png","5733.png","123.png","6378.png"];
     List<String> iconNameList = ["카카오톡", "네이버","페이스북","구글"];
 
-
+    isKakaoTalkInstalled();
 
     return Scaffold(
       backgroundColor: AppThemes.mainColor,
@@ -37,14 +62,7 @@ class AuthPage extends StatelessWidget{
               child: Text("아래 계정으로 시작하기",
                   textAlign: TextAlign.center,style: AppThemes.textTheme.headline1.copyWith(fontSize: 12)),
             ),
-            GestureDetector(
-              onTap:(){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterInfo()),
-                );
-              },
-              child: Container(
+            Container(
                 height: 200,
                 width: 190,
                 child: ListView.builder(
@@ -55,16 +73,19 @@ class AuthPage extends StatelessWidget{
                       return _loginItem(iconList[index],iconNameList[index]);
                     }),
               ),
-            ),
-
           ],
         ),
       ),
     );
   }
 
+
   Widget _loginItem(String assetName, String iconName){
-    return Container(
+    return GestureDetector(
+      onTap:() {
+        onPressed(iconName);
+      },
+    child: Container(
       height: 50,
       padding: EdgeInsets.symmetric(horizontal: 35.5),
       decoration: BoxDecoration(
@@ -83,6 +104,39 @@ class AuthPage extends StatelessWidget{
           Text(iconName,style: AppThemes.textTheme.headline1.copyWith(fontSize: 20),)
         ],
       ),
+    ),
     );
+  }
+
+
+  void onPressed(String text){
+    switch(text){
+      case "카카오톡":
+        print("카카오톡");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterInfo()),
+        );
+        break;
+      case "네이버":
+        print("네이버");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterInfo()),
+        );
+        break;
+      case "페이스북":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterInfo()),
+        );
+        break;
+      case "구글":
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterInfo()),
+        );
+        break;
+    }
   }
 }

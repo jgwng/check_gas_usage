@@ -1,8 +1,8 @@
 import 'package:checkgasusage/constants/app_theme.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:checkgasusage/screens/ml_vision/example_list.dart';
 import 'package:checkgasusage/screens/ml_vision/practice_vision.dart';
 class HomePage extends StatefulWidget{
   @override
@@ -52,7 +52,9 @@ class _HomePageState extends State<HomePage>{
               ),
               SizedBox(height:80),
               GestureDetector(
-                  onTap: () =>  Navigator.push(
+                  onTap: () =>
+//                      FirebaseFirestore.instance.collection('practice').add({'내일' : '6시퇴근'}),
+                      Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MyHomePage()),
                   ),

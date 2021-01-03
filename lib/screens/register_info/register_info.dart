@@ -11,6 +11,8 @@ class RegisterInfo extends StatefulWidget {
 
 class _RegisterInfoState extends State<RegisterInfo> {
 
+
+
   TextEditingController nameController = TextEditingController();
   FocusNode nameFocusNode = FocusNode();
 
@@ -28,6 +30,11 @@ class _RegisterInfoState extends State<RegisterInfo> {
   String firstAddress = '검색을 통해 주소를 입력하세요';
   @override
   Widget build(BuildContext context) {
+    final node = FocusScope.of(context);
+    bool focus = false;
+
+
+
     return Scaffold(
       backgroundColor: AppThemes.mainColor,
       appBar: AppBar(
@@ -61,8 +68,8 @@ class _RegisterInfoState extends State<RegisterInfo> {
                   Text("정보 입력", textAlign: TextAlign.center,
                     style: AppThemes.textTheme.headline1.copyWith(fontSize: 25),),
                   SizedBox(height: 20),
-                  infoField(nameController,nameFocusNode,"이름",validateName),
-                  infoField(phoneNumberController,phoneNumberFocusNode,"핸드폰 번호((-) 없이)",validatePhoneNumber),
+                  infoField(nameController,nameFocusNode,"이름",validateName,false),
+                  infoField(phoneNumberController,phoneNumberFocusNode,"핸드폰 번호((-) 없이)",validatePhoneNumber,false),
                   SizedBox(height: 10,),
                   //주소 입력
                   Container(
@@ -72,21 +79,22 @@ class _RegisterInfoState extends State<RegisterInfo> {
                           SizedBox(width: 10,),
                           RaisedButton(
                             onPressed: () async {
+                              FocusManager.instance.primaryFocus.unfocus();
                               KopoModel model = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => Kopo(),
                                   ));
+
                               if (model != null) {
                                 setState(() {
                                   postNumber = model.zonecode;
                                   firstAddress = model.address;
-//                            addressJSON =
-//                            '${model.address} ${model.buildingName}${model
-//                                .apartment == 'Y' ? '아파트' : ''} ${model
-//                                .zonecode} ';
+                                  focus = true;
+                                  FocusScope.of(context).requestFocus(secondAddressFocusNode);
                                 });
                               }
+
                             },
                             child: Text("주소 검색"),
                           )
@@ -103,7 +111,7 @@ class _RegisterInfoState extends State<RegisterInfo> {
                     child: Text(firstAddress,style: textStyle,textAlign: TextAlign.left,),
                   ),
                   SizedBox(height: 10,),
-                  infoField(secondAddressController,secondAddressFocusNode,"남은 주소를 입력해주세요",validateSecondAddress),
+                  infoField(secondAddressController,secondAddressFocusNode,"남은 주소를 입력해주세요",validateSecondAddress,focus),
                   SizedBox(height: 30,),
                   SizedBox(
                     width: 200,
@@ -124,7 +132,7 @@ class _RegisterInfoState extends State<RegisterInfo> {
 
 
   Widget infoField(TextEditingController textEditingController,
-      FocusNode focusNode,String hintText,Function(String number) function){
+      FocusNode focusNode,String hintText,Function(String number) function,bool autoFocus){
     return Column(
       children: [
         Container(
@@ -139,8 +147,10 @@ class _RegisterInfoState extends State<RegisterInfo> {
             child: TextFormField(
                 controller: textEditingController,
                 focusNode: focusNode,
+                autofocus: autoFocus,
                 validator: function,
                 style: textStyle,
+                 keyboardType: (hintText == "핸드폰 번호((-) 없이)") ? TextInputType.number : TextInputType.text,
                 decoration: InputDecoration(
 
                   hintText: hintText,

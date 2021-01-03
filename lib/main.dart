@@ -1,11 +1,22 @@
 import 'package:checkgasusage/landing_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  KakaoContext.clientId = '12b45cec41c963c9377f00e379070102';
+
+
+
+
   await Firebase.initializeApp();
-  runApp(MyApp());
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
