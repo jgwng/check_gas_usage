@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage>{
               SizedBox(height:80),
               GestureDetector(
                   onTap: () =>
-//                      FirebaseFirestore.instance.collection('practice').add({'내일' : '6시퇴근'}),
+//
                       Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -63,17 +63,11 @@ class _HomePageState extends State<HomePage>{
                   backgroundColor: Colors.white,
                   child: CircleAvatar(
                     radius: 118, // 안쪽원 반지름
-                    child: Center(child: Text("aaaa"),),
+                    child: Center(child: Text("가스 검침하기",style:AppThemes.textTheme.headline1),),
                     backgroundColor: AppThemes.mainColor,
                   ),
                 ),
-              )
-
-
-
-
-             ,
-
+              ),
             ],
           ),
         ),

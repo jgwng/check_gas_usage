@@ -1,6 +1,8 @@
 import 'package:checkgasusage/constants/app_theme.dart';
 import 'package:checkgasusage/constants/size.dart';
+import 'package:checkgasusage/models/user.dart';
 import 'package:checkgasusage/screens/main_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kopo/kopo.dart';
 
@@ -11,7 +13,7 @@ class RegisterInfo extends StatefulWidget {
 
 class _RegisterInfoState extends State<RegisterInfo> {
 
-
+  final UserInfo userInfo = UserInfo();
 
   TextEditingController nameController = TextEditingController();
   FocusNode nameFocusNode = FocusNode();
@@ -30,7 +32,6 @@ class _RegisterInfoState extends State<RegisterInfo> {
   String firstAddress = '검색을 통해 주소를 입력하세요';
   @override
   Widget build(BuildContext context) {
-    final node = FocusScope.of(context);
     bool focus = false;
 
 
@@ -196,8 +197,16 @@ class _RegisterInfoState extends State<RegisterInfo> {
   }
 
 
-  void onPressed(){
+  void onPressed() async{
     if(_infoFormKey.currentState.validate()){
+      userInfo.name = nameController.text;
+      userInfo.phoneNumber = phoneNumberController.text;
+      userInfo.firstAddress = firstAddress;
+      userInfo.secondAddress = secondAddressController.text;
+
+      FirebaseFirestore.instance.collection('user').add(userInfo.toJson());
+
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainPage()),

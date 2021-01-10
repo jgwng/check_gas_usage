@@ -1,5 +1,5 @@
+import 'package:checkgasusage/screens/app_setting_page/app_setting_page.dart';
 import 'package:checkgasusage/screens/home_page/home_page.dart';
-import 'package:checkgasusage/screens/user_info_page/user_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:checkgasusage/constants/app_theme.dart';
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pageList = [
     HomePage(),
     MyGasUsage(),
-    UserInfo(),
+    SettingPage(),
   ];
 
   @override

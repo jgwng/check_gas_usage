@@ -3,6 +3,7 @@ import 'package:checkgasusage/screens/register_info/register_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kakao_flutter_sdk/all.dart';
+import 'package:checkgasusage/screens/main_page.dart';
 
 class AuthPage extends StatefulWidget{
   @override
@@ -115,26 +116,26 @@ class _AuthPageState extends State<AuthPage>{
         print("카카오톡");
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RegisterInfo()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         );
         break;
       case "네이버":
         print("네이버");
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RegisterInfo()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         );
         break;
       case "페이스북":
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RegisterInfo()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         );
         break;
       case "구글":
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RegisterInfo()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         );
         break;
     }

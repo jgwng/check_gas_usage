@@ -57,6 +57,13 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/icon/7.png
+    - assets/icon/8712.png
+    - assets/icon/back.png
+    - assets/icon/pen.png
+    - assets/icon/pen_small.png
+    - assets/icon/search_glyph.png
+    - assets/icon/x.png
     - assets/image/auth_page/123.png
     - assets/image/auth_page/5733.png
     - assets/image/auth_page/6378.png
@@ -64,10 +71,15 @@ flutter:
     - assets/image/bnb_items/home.png
     - assets/image/bnb_items/my_usage.png
     - assets/image/bnb_items/setting.png
+    - assets/image/bnb_items/setting.png
+    - assets/image/setting_page/6383.png
+    - assets/image/setting_page/6384.png
+    - assets/image/setting_page/6387.png
+    - assets/image/setting_page/6388.png
+    - assets/image/setting_page/6389.png
+    - assets/image/setting_page/8739.png
     - assets/image/register_info/gas_pipe.png
     - assets/logo/gas.png
-
-
 
   fonts:
     - family: NotoSans
