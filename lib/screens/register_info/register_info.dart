@@ -1,11 +1,12 @@
 import 'package:checkgasusage/constants/app_theme.dart';
 import 'package:checkgasusage/constants/size.dart';
 import 'package:checkgasusage/models/user.dart';
-import 'package:checkgasusage/screens/main_page.dart';
+import 'package:checkgasusage/landing_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:flutter/material.dart';
 import 'package:kopo/kopo.dart';
-
+import 'package:checkgasusage/providers/register_state_provider.dart';
 class RegisterInfo extends StatefulWidget {
   @override
   _RegisterInfoState createState() => _RegisterInfoState();
@@ -13,7 +14,7 @@ class RegisterInfo extends StatefulWidget {
 
 class _RegisterInfoState extends State<RegisterInfo> {
 
-  final UserInfo userInfo = UserInfo();
+  final User userInfo = User();
 
   TextEditingController nameController = TextEditingController();
   FocusNode nameFocusNode = FocusNode();
@@ -33,8 +34,6 @@ class _RegisterInfoState extends State<RegisterInfo> {
   @override
   Widget build(BuildContext context) {
     bool focus = false;
-
-
 
     return Scaffold(
       backgroundColor: AppThemes.mainColor,
@@ -65,13 +64,14 @@ class _RegisterInfoState extends State<RegisterInfo> {
                     child: Image.asset(
                       "assets/image/register_info/gas_pipe.png", fit: BoxFit.fill,),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   Text("정보 입력", textAlign: TextAlign.center,
                     style: AppThemes.textTheme.headline1.copyWith(fontSize: 25),),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                   infoField(nameController,nameFocusNode,"이름",validateName,false),
+                  SizedBox(height: 10),
                   infoField(phoneNumberController,phoneNumberFocusNode,"핸드폰 번호((-) 없이)",validatePhoneNumber,false),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 20,),
                   //주소 입력
                   Container(
                       child: Row(
@@ -106,18 +106,25 @@ class _RegisterInfoState extends State<RegisterInfo> {
                   Container(
                     width: size.width,
                     height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.brown[800],
+                    ),
                     alignment : Alignment.centerLeft,
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    color: Colors.brown[800],
+
                     child: Text(firstAddress,style: textStyle,textAlign: TextAlign.left,),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 20,),
                   infoField(secondAddressController,secondAddressFocusNode,"남은 주소를 입력해주세요",validateSecondAddress,focus),
                   SizedBox(height: 30,),
                   SizedBox(
                     width: 200,
                     height: 40,
                     child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       color: Colors.grey[800],
                       onPressed: onPressed,
                       child: Text("정보 입력",style: textStyle,),
@@ -203,14 +210,16 @@ class _RegisterInfoState extends State<RegisterInfo> {
       userInfo.phoneNumber = phoneNumberController.text;
       userInfo.firstAddress = firstAddress;
       userInfo.secondAddress = secondAddressController.text;
+      userInfo.userState = true;
 
-      FirebaseFirestore.instance.collection('user').add(userInfo.toJson());
-
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
+      await context.read(nowStateProvider).registerUserData(userInfo);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (BuildContext context) =>
+              LandingPage()), (route) => false);
+//      Navigator.push(
+//        context,
+//        MaterialPageRoute(builder: (context) => MainPage()),
+//      );
     }
   }
 

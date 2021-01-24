@@ -1,10 +1,11 @@
-import 'package:checkgasusage/screens/app_setting_page/app_setting_page.dart';
 import 'package:checkgasusage/screens/home_page/home_page.dart';
+import 'package:checkgasusage/screens/user_info_set_Change/change_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:checkgasusage/constants/app_theme.dart';
 import 'package:checkgasusage/screens/my_usage_page/my_usage_page.dart';
-
+import 'package:flutter_riverpod/all.dart';
+import 'package:checkgasusage/providers/user_state_provider.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -13,6 +14,13 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds: 0),()=>context.read(currentUserProvider).getUserData());
+  }
 
   final List<BottomNavigationBarItem> _bNBItems = [
     BottomNavigationBarItem(
@@ -35,15 +43,19 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _pageList = [
     HomePage(),
     MyGasUsage(),
-    SettingPage(),
+    ChangeUserInfo(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        children: _pageList,
-        index: _currentIndex,
+      body: Consumer(
+          builder : (context,watch,child){
+            return  IndexedStack(
+              children: _pageList,
+              index: _currentIndex,
+            );
+          }
       ),
 
       bottomNavigationBar: BottomNavigationBar(

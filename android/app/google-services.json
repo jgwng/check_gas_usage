@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "900025548955-8ouju5spv2e43jieivdgkicq625ctq38.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gunwng.checkgasusage",
+            "certificate_hash": "1bf2a0fcc3ebc6ac4ac8ceeb200a843187584099"
+          }
+        },
+        {
           "client_id": "900025548955-sopakpk14rlqcigjho0nn352gj4lmi7c.apps.googleusercontent.com",
           "client_type": 3
         }

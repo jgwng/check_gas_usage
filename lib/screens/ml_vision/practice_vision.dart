@@ -6,6 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 class MyHomePage extends StatefulWidget {
+  final File file;
+  MyHomePage({this.file});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -16,6 +19,12 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isImageLoaded = false;
   List<String> words = [];
   List<String> barcode = [];
+
+ @override
+ void initState(){
+   super.initState();
+   pickedImage = widget.file;
+ }
 
 
   Future pickImage() async {

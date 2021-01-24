@@ -1,0 +1,27 @@
+{
+  "name": "check_gas_usage",
+  "version": "1.0.0",
+  "description": "A new Flutter application.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "firebase-tools": "^9.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jgwng/check_gas_usage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jgwng/check_gas_usage/issues"
+  },
+  "homepage": "https://github.com/jgwng/check_gas_usage#readme"
+}

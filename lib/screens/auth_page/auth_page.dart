@@ -1,35 +1,48 @@
+import 'dart:io';
+
 import 'package:checkgasusage/constants/app_theme.dart';
+import 'package:checkgasusage/providers/firebase_auth_provider.dart';
+import 'package:checkgasusage/providers/platform_auth_provider.dart';
 import 'package:checkgasusage/screens/register_info/register_info.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:checkgasusage/screens/main_page.dart';
+class AuthPage extends ConsumerWidget {
 
-class AuthPage extends StatefulWidget{
+  final signInModelProvider = ChangeNotifierProvider<SignInViewModel>(
+          (ref) => SignInViewModel(auth: ref.watch(firebaseAuthProvider)));
+
   @override
-  _AuthPageState createState() => _AuthPageState();
+  Widget build(BuildContext context, ScopedReader watch) {
+    final signInModel = watch(signInModelProvider);
+    return ProviderListener(
+        onChange: (context, model)async{
+          if(model.error != null){
+            print(model.error);
+          }
+        }, provider: signInModelProvider, child: AuthPageContent(model: signInModel,));
+  }
 }
 
-class _AuthPageState extends State<AuthPage>{
-  bool _isKaKaoTalkInstalled = false;
 
+class AuthPageContent extends StatelessWidget{
+  final SignInViewModel model;
+  AuthPageContent({Key key, this.model}) : super(key: key);
 
-  @override
-  void initState(){
-    super.initState();
-    _initKaKaoTalkInstalled();
+  getDeviceInfo(){
+    var deviceInfo;
+    if(Platform.isAndroid){
+      deviceInfo = DeviceInfoPlugin().androidInfo;
+    }
+    if(Platform.isIOS){
+      deviceInfo = DeviceInfoPlugin().iosInfo;
+    }
+
+    return deviceInfo;
   }
-
-  _initKaKaoTalkInstalled() async {
-    final installed = await isKakaoTalkInstalled();
-    setState(() {
-      _isKaKaoTalkInstalled = installed;
-    });
-  }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +77,44 @@ class _AuthPageState extends State<AuthPage>{
                   textAlign: TextAlign.center,style: AppThemes.textTheme.headline1.copyWith(fontSize: 12)),
             ),
             Container(
-                height: 200,
-                width: 190,
-                child: ListView.builder(
-                    itemCount: 4,
-                    padding: EdgeInsets.only(top: 0),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return _loginItem(iconList[index],iconNameList[index]);
-                    }),
-              ),
+              height: 200,
+              width: 190,
+              child: ListView.builder(
+                  itemCount: 4,
+                  padding: EdgeInsets.only(top: 0),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return _loginItem(iconList[index],iconNameList[index],context);
+                  }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _loginItem(String assetName, String iconName,BuildContext context){
+    return GestureDetector(
+      onTap:() {
+        onPressed(iconName,context);
+      },
+      child: Container(
+        height: 50,
+        padding: EdgeInsets.symmetric(horizontal: 35.5),
+        decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.white,width:1),
+            )),
+        child:Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: Image.asset("assets/image/auth_page/$assetName"),
+            ),
+            SizedBox(width:11.3,),
+            Text(iconName,style: AppThemes.textTheme.headline1.copyWith(fontSize: 20),)
           ],
         ),
       ),
@@ -81,43 +122,10 @@ class _AuthPageState extends State<AuthPage>{
   }
 
 
-  Widget _loginItem(String assetName, String iconName){
-    return GestureDetector(
-      onTap:() {
-        onPressed(iconName);
-      },
-    child: Container(
-      height: 50,
-      padding: EdgeInsets.symmetric(horizontal: 35.5),
-      decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Colors.white,width:1),
-          )),
-      child:Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: Image.asset("assets/image/auth_page/$assetName"),
-          ),
-          SizedBox(width:11.3,),
-          Text(iconName,style: AppThemes.textTheme.headline1.copyWith(fontSize: 20),)
-        ],
-      ),
-    ),
-    );
-  }
-
-
-  void onPressed(String text){
+  void onPressed(String text,BuildContext context) async{
     switch(text){
       case "카카오톡":
-        print("카카오톡");
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MainPage()),
-        );
+        await model.signInWithKakao();
         break;
       case "네이버":
         print("네이버");
@@ -133,11 +141,11 @@ class _AuthPageState extends State<AuthPage>{
         );
         break;
       case "구글":
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MainPage()),
-        );
+        await model.signInWithGoogle();
         break;
     }
   }
+
+
 }
+
